@@ -1,9 +1,11 @@
 from xml.etree.ElementTree import ElementTree
 import sys
 
+if len(sys.argv) < 4:
+    print "Usage: python genbank_to_virulign.py genbank_insdseq.xml orf-name seq-start seq-end"
+    sys.exit()
+
 #get the genbank entry in the INSDSEQ XML format
-#use insdseq_get.sh which requires the insdseqget binary 
-#(part of the NCBI tools, can be downloaded from here: ftp://ftp.ncbi.nih.gov/toolbox/ncbi_tools/converters/)
 xml_file = sys.argv[1]
 orf_name = sys.argv[2]
 #1-based ORF start and stop position
@@ -13,9 +15,9 @@ ref_seq_end = int(sys.argv[4])
 doc = ElementTree(file=xml_file)
 
 #orf sequence
-sequence_prefix = '/INSDSeq/INSDSeq_sequence' 
+sequence_prefix = '/INSDSeq_sequence' 
 sequence = doc.find('.' + sequence_prefix).text
-
+print sequence
 class Region:
     def __init__(self, start=None, end=None, name=None):
         self.start = start 
@@ -25,8 +27,7 @@ class Region:
 regions = []
 
 #find all features
-#INSDSeq_feature-table/INSDFeature
-feature_table_prefix = '/INSDSeq/INSDSeq_feature-table/INSDFeature'
+feature_table_prefix = '/INSDSeq_feature-table/INSDFeature'
 for e in doc.findall('.' + feature_table_prefix):
     #select the features we're interested in
     if e.find('INSDFeature_key').text == 'mat_peptide':

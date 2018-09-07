@@ -17,7 +17,6 @@ doc = ElementTree(file=xml_file)
 #orf sequence
 sequence_prefix = '/INSDSeq_sequence' 
 sequence = doc.find('.' + sequence_prefix).text
-print sequence
 class Region:
     def __init__(self, start=None, end=None, name=None):
         self.start = start 

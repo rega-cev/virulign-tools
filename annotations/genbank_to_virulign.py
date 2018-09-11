@@ -44,8 +44,8 @@ for e in doc.findall('.' + feature_table_prefix):
         regions.append(Region(start, end, region_name))
 
 #1-based ref_seq_start and ref_seq_end, therefore -1
-#(note the extra -1 for the end of the range)
-orf_sequence = sequence[(ref_seq_start-1):(ref_seq_end-1)-1]
+#(note the extra +1 for the end of the range)
+orf_sequence = sequence[(ref_seq_start-1):(ref_seq_end-1)+1]
 
 #XML UTF8 header
 print '<?xml version="1.0" encoding="UTF-8"?>'
